@@ -8,6 +8,7 @@ class DriverAllocator
 {
     const TYPE_MYSQL = 'mysql';
     const TYPE_MARIA_DB = 'mariadb';
+    const TYPE_TIDB = 'tidb';
 
     /**
      * @param \PDO $PDO
@@ -37,6 +38,9 @@ class DriverAllocator
         } elseif (strtolower($driverName) === 'mysql') {
             $type = self::TYPE_MYSQL;
             $version = $match[0];
+        } elseif (strtolower($driverName) === 'tidb'){
+            $type = self::TYPE_TIDB;
+            $version = $match[0];
         }
 
         switch ($type) {
@@ -57,6 +61,11 @@ class DriverAllocator
                         return new MySQL57Driver($PDO);
                     case Semver::satisfies($version, '10.0.*'):
                         return new MySQL56Driver($PDO);
+                }
+            case self::TYPE_TIDB:
+                switch (true) {
+                    case Semver::satisfies($version, '>= 8.0.0'):
+                        return new TiDBTempDriver($PDO);
                 }
         }
 
