@@ -6,6 +6,6 @@ class Attribute
 {
     const UNSIGNED       = 'unsigned';
     const NULLABLE       = 'nullable';
-    const AUTO_INCREMENT = 'auto_increment';
     const STORED         = 'stored';
+    const AUTO_INCREMENT = 'auto_increment';
 }
